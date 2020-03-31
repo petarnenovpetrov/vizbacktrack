@@ -1,4 +1,3 @@
-import { EventEmitter } from "events";
 import Vertex from "./Vertex";
 
 export default class Edge {

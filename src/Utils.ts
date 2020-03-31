@@ -8,6 +8,7 @@ export const edges: Edge[] = [];
 export let combinations = 0;
 
 const canvas = document.getElementById("drop") as HTMLCanvasElement;
+const resultElement = <HTMLSpanElement>document.getElementById("results");
 const bounceSound = document.getElementById("sound") as HTMLAudioElement;
 
 export function dragVertex(e: DragEvent) {
@@ -19,7 +20,7 @@ export function dropHandler(e: DragEvent) {
   const currentX = e.clientX - canvas.offsetLeft;
   const currentY = e.clientY - canvas.offsetTop;
   const vertex = new Vertex(currentX, currentY);
-  vertex.on("clicked", e => {
+  vertex.on("clicked", (e) => {
     vertex.center = e;
     render(canvas);
   });
@@ -46,7 +47,7 @@ export function clickHandler(e: MouseEvent) {
   const clickX = e.offsetX;
   const clickY = e.offsetY;
 
-  vertexes.forEach(v => {
+  vertexes.forEach((v) => {
     const delta = Math.sqrt(
       (clickX - v.center.x) ** 2 + (clickY - v.center.y) ** 2
     );
@@ -77,7 +78,7 @@ export function clickHandler(e: MouseEvent) {
 function render(c: HTMLCanvasElement) {
   const ctx = c.getContext("2d")!;
   ctx.clearRect(0, 0, c.width, c.height);
-  edges.forEach(e => {
+  edges.forEach((e) => {
     e.calcLength();
     ctx.beginPath();
     ctx.lineWidth = e.getLineWidth();
@@ -86,7 +87,7 @@ function render(c: HTMLCanvasElement) {
     ctx.lineTo(e.endV.center.x, e.endV.center.y);
     ctx.stroke();
   });
-  vertexes.forEach(v => {
+  vertexes.forEach((v) => {
     ctx.beginPath();
     ctx.fillStyle = v.getColor();
     ctx.strokeStyle = "black";
@@ -106,7 +107,6 @@ function render(c: HTMLCanvasElement) {
 }
 
 export async function calcHandler() {
-  const resultElement = <HTMLSpanElement>document.getElementById("results");
   const startV = (<HTMLInputElement>document.getElementById("startv")).value;
   const endV = (<HTMLInputElement>document.getElementById("endv")).value;
   const delayMS = (<HTMLInputElement>document.getElementById("delay")).value;
@@ -120,30 +120,32 @@ export async function calcHandler() {
     results.sort(comparerPath)[0]
   )}
   Shortest salesman: ${JSON.stringify(
-    results.sort(comparerPath).filter(r => r.path.length === vertexes.length)[0]
+    results
+      .sort(comparerPath)
+      .filter((r) => r.path.length === vertexes.length)[0]
   )}
   All possible paths: ${results.length}
   All combinations: ${combinations}`;
 }
 
 function buildLinks(e: Edge) {
-  if (!e.startV.links.filter(l => l.vertex === e.endV).length) {
+  if (!e.startV.links.filter((l) => l.vertex === e.endV).length) {
     e.startV.links.push({
       vertex: e.endV,
-      cost: e.getLength()
+      cost: e.getLength(),
     });
   } else {
-    e.startV.links.forEach(l => {
+    e.startV.links.forEach((l) => {
       if (l.vertex === e.endV) l.cost = e.getLength();
     });
   }
-  if (!e.endV.links.filter(l => l.vertex === e.startV).length) {
+  if (!e.endV.links.filter((l) => l.vertex === e.startV).length) {
     e.endV.links.push({
       vertex: e.startV,
-      cost: e.getLength()
+      cost: e.getLength(),
     });
   } else {
-    e.startV.links.forEach(l => {
+    e.startV.links.forEach((l) => {
       if (l.vertex === e.startV) l.cost = e.getLength();
     });
   }
@@ -174,7 +176,7 @@ async function backtrack(
       startV.used = false;
       return true;
     }
-    if (startV.links.every(v => v.vertex.used)) {
+    if (startV.links.every((v) => v.vertex.used)) {
       combinations++;
       startV.used = false;
       return false;
@@ -186,7 +188,7 @@ async function backtrack(
         if (res) {
           const result = {
             path: new Array(...q),
-            cost
+            cost,
           };
           results.push(result);
         }
@@ -204,7 +206,7 @@ async function backtrack(
     startV.used = false;
     return false;
   }
-  currentStartV.setColor("");
+  currentStartV.setColor("lightblue");
   resetEdges();
   colorEdge(q);
   render(canvas);
@@ -248,28 +250,27 @@ function colorEdge(edges: number[]) {
 }
 
 function resetEdges() {
-  edges.forEach(e => {
+  edges.forEach((e) => {
     e.setColor("black");
     e.setLineWidth(1);
   });
 }
 
 export function botHandler() {
-  const canvas = document.getElementById("drop") as HTMLCanvasElement;
+  resultElement.innerHTML = "";
   Vertex.nextUniqueLabel = 0;
   edges.length = 0;
   vertexes.length = 0;
   const bot = new Bot(2, 9);
-  bot.getVertexes().forEach(v => vertexes.push(v));
-  bot.getEdges().forEach(e => edges.push(e));
+  bot.getVertexes().forEach((v) => vertexes.push(v));
+  bot.getEdges().forEach((e) => edges.push(e));
   render(canvas);
 }
 
 export function clearHandler() {
+  resultElement.innerHTML = "";
   Vertex.nextUniqueLabel = 0;
   vertexes.length = 0;
   edges.length = 0;
   render(canvas);
 }
-
-//FIXME: find last filing and fix color

@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
   border-radius: 5px;
-  padding: 0;
+  padding: 0px;
   margin: 2px;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .results {
-  height: 100px;
+  height: 110px;
 }
 
 .vertex {
@@ -84,4 +84,8 @@
 
 .white {
   color: white;
+}
+
+#calc {
+  flex: 1 1;
 }

@@ -17,71 +17,71 @@ interface Results {
 const v1: Vertex = {
   label: 1,
   used: false,
-  links: []
+  links: [],
 };
 const v2: Vertex = {
   label: 2,
   used: false,
-  links: []
+  links: [],
 };
 const v3: Vertex = {
   label: 3,
   used: false,
-  links: []
+  links: [],
 };
 const v4: Vertex = {
   label: 4,
   used: false,
-  links: []
+  links: [],
 };
 const v5: Vertex = {
   label: 5,
   used: false,
-  links: []
+  links: [],
 };
 const v6: Vertex = {
   label: 6,
   used: false,
-  links: []
+  links: [],
 };
 
 v1.links = [
   { vertex: v2, cost: 3 },
   { vertex: v3, cost: 5 },
   { vertex: v4, cost: 2 },
-  { vertex: v6, cost: 15 }
+  { vertex: v6, cost: 15 },
 ];
 v2.links = [
   { vertex: v1, cost: 3 },
   { vertex: v3, cost: 6 },
   { vertex: v5, cost: 9 },
-  { vertex: v6, cost: 12 }
+  { vertex: v6, cost: 12 },
 ];
 v3.links = [
   { vertex: v1, cost: 5 },
   { vertex: v2, cost: 6 },
   { vertex: v4, cost: 7 },
   { vertex: v5, cost: 9 },
-  { vertex: v6, cost: 4 }
+  { vertex: v6, cost: 4 },
 ];
 v4.links = [
   { vertex: v1, cost: 2 },
   { vertex: v3, cost: 7 },
   { vertex: v5, cost: 8 },
-  { vertex: v6, cost: 1 }
+  { vertex: v6, cost: 1 },
 ];
 v5.links = [
   { vertex: v2, cost: 9 },
   { vertex: v3, cost: 9 },
   { vertex: v4, cost: 8 },
-  { vertex: v6, cost: 2 }
+  { vertex: v6, cost: 2 },
 ];
 v6.links = [
   { vertex: v4, cost: 1 },
   { vertex: v5, cost: 2 },
   { vertex: v2, cost: 12 },
   { vertex: v1, cost: 15 },
-  { vertex: v3, cost: 4 }
+  { vertex: v3, cost: 4 },
 ];
 
 function explore(currentStartV: Vertex, currentStartEnd: Vertex) {
@@ -96,7 +96,7 @@ function explore(currentStartV: Vertex, currentStartEnd: Vertex) {
       startV.used = false;
       return true;
     }
-    if (startV.links.every(v => v.vertex.used)) {
+    if (startV.links.every((v) => v.vertex.used)) {
       startV.used = false;
       return false;
     }
@@ -107,7 +107,7 @@ function explore(currentStartV: Vertex, currentStartEnd: Vertex) {
         if (res) {
           const result = {
             path: new Array(...q),
-            cost
+            cost,
           };
           results.push(result);
         }
@@ -128,7 +128,7 @@ const explrResults = run();
 // tslint:disable-next-line:no-console
 console.log(explrResults.length);
 
-const travel = explrResults.filter(r => r.path.length === 6);
+const travel = explrResults.filter((r) => r.path.length === 6);
 const travelSort = (r1: Results, r2: Results) => r1.cost - r2.cost;
 
 // tslint:disable-next-line:no-console

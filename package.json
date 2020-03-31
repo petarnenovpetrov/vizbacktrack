@@ -4,16 +4,31 @@
   "description": "Visual representation of BackTrack algorithm",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel public/index.html",
-    "test": "jest"
+    "dev:serve": "parcel public/index.html",
+    "build:clear": "rm -rf dist",
+    "build:format": "prettier --write src/*",
+    "build:prod": "parcel build public/index.html",
+    "build": "npm-run-all build:*",
+    "container:stop": "docker stop bcktrck || exit 0",
+    "container:remove": "docker container rm bcktrck || exit 0",
+    "container:create": "docker build -t vizbacktrack . || exit 0",
+    "container:run": "docker run --name bcktrck -d -p 8080:80 vizbacktrack || exit 0",
+    "docker": "npm-run-all container:*",
+    "test": "jest",
+    "postinstall": "npm-run-all build docker"
   },
-  "keywords": ["backtrack"],
+  "keywords": [
+    "backtrack"
+  ],
   "author": "Petar Nenov",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^25.1.4",
-    "@types/node": "^13.9.1",
+    "@types/node": "^13.9.8",
+    "cssnano": "^4.1.10",
     "jest": "^25.2.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.2",
     "typescript": "^3.8.3"
   },
   "dependencies": {

@@ -17,10 +17,10 @@ export default class Bot {
   }
   public static stringifyVertex(arr: Vertex[]) {
     return arr
-      .map(e =>
+      .map((e) =>
         JSON.stringify({
           maxLinks: e.getMaxLinks(),
-          linkPool: Array.from(e.getLinkPool()).map(v => v.getLabel())
+          linkPool: Array.from(e.getLinkPool()).map((v) => v.getLabel()),
         })
       )
       .join("\n");

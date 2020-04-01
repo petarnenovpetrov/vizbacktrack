@@ -4,10 +4,10 @@
 
 ### Prerequisites  
 
-    0. Git
-    1. NodeJs
-    2. NPM
-    3. Docker /not necessary/
+   [Git](https://git-scm.com/)  
+   [NodeJS](https://nodejs.org/en/)  
+   [Docker](https://www.docker.com/) **not necessary but recommended**  
+
 
 ### Clone repository
 
@@ -18,6 +18,7 @@
     git clone https://github.com/petarnenovpetrov/vizbacktrack.git
     cd vizbacktrack
     npm install
+
     ```
 
 ### If you have installed Docker on a local machine, just go
@@ -28,6 +29,7 @@ OR
 
     ```bash
     npm run dev:serve
+
     ```
 
 and go to
@@ -48,7 +50,7 @@ http://localhost:1234
     4. Step 1
     5. To preset range of random vertexes
        1. Feel the fields minV and maxV
-       2. By default minV = 3 and mxV = 9
+       2. By default minV = 3 and maxV = 9
     6. Step 1
 
 ### Manual step:  

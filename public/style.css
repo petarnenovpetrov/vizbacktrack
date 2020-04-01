@@ -93,8 +93,12 @@
   flex: 1 1;
 }
 
-.bot{
+.bot{  
   flex:1 1 50px;
+}
+
+.item-center{
+  align-items: center;
 }
 
 #clear{

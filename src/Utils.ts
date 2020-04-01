@@ -8,8 +8,44 @@ export const edges: Edge[] = [];
 export let combinations = 0;
 
 const canvas = document.getElementById("drop") as HTMLCanvasElement;
-const resultElement = <HTMLSpanElement>document.getElementById("results");
+const vertex = document.getElementById("vertex");
+const edge = document.getElementById("edge");
+const minV = document.getElementById("minV") as HTMLInputElement;
+const maxV = document.getElementById("maxV") as HTMLInputElement;
+const startV = document.getElementById("startv") as HTMLInputElement;
+const endV = document.getElementById("endv") as HTMLInputElement;
+const delayMS = document.getElementById("delay") as HTMLInputElement;
+const resultElement = document.getElementById("results") as HTMLSpanElement;
 const bounceSound = document.getElementById("sound") as HTMLAudioElement;
+let isCalcRunning = false;
+
+const updateInfo = () => setInterval(fillInfo, 1000);
+let updatedInfoPointer = updateInfo();
+
+function fillInfo() {
+  while (vertex?.firstChild) {
+    vertex.removeChild(vertex.firstChild);
+  }
+  vertexes.forEach((currentV) => {
+    const li = document.createElement("li");
+    li.innerText = currentV.getLabel();
+    vertex?.appendChild(li);
+  });
+
+  while (edge?.firstChild) {
+    edge.removeChild(edge.firstChild);
+  }
+  edges.forEach((currentV) => {
+    const li = document.createElement("li");
+    li.innerText =
+      currentV.startV.getLabel() +
+      "->" +
+      currentV.endV.getLabel() +
+      ":" +
+      currentV.getLength();
+    edge?.appendChild(li);
+  });
+}
 
 export function dragVertex(e: DragEvent) {
   e.dataTransfer!.setData("vertex", JSON.stringify({ vertex: 1 }));
@@ -107,18 +143,19 @@ function render(c: HTMLCanvasElement) {
 }
 
 export async function calcHandler() {
-  const startV = (<HTMLInputElement>document.getElementById("startv")).value;
-  const endV = (<HTMLInputElement>document.getElementById("endv")).value;
-  const delayMS = (<HTMLInputElement>document.getElementById("delay")).value;
+  if (isCalcRunning) return;
+  isCalcRunning = true;
+  clearInterval(updatedInfoPointer);
   edges.forEach(buildLinks);
-  const v1 = vertexes[Number(startV) - 1];
-  const v2 = vertexes[Number(endV) - 1];
-  const delayInMS = Number(delayMS) || 0;
-  const results = v1 && v2 && (await backtrack(v1, v2, delayInMS));
-
-  resultElement.innerText = `Shortest path: ${JSON.stringify(
-    results.sort(comparerPath)[0]
-  )}
+  const v1 = vertexes[Number(startV.value) - 1];
+  const v2 = vertexes[Number(endV.value) - 1];
+  const delayInMS = Number(delayMS.value) || 0;
+  clearResultsField();
+  try {
+    const results = v1 && v2 && (await backtrack(v1, v2, delayInMS));
+    resultElement.innerText = `Shortest path: ${JSON.stringify(
+      results.sort(comparerPath)[0]
+    )}
   Shortest salesman: ${JSON.stringify(
     results
       .sort(comparerPath)
@@ -126,6 +163,12 @@ export async function calcHandler() {
   )}
   All possible paths: ${results.length}
   All combinations: ${combinations}`;
+  } catch (err) {
+    console.error(err.message || JSON.stringify(err));
+  } finally {
+    isCalcRunning = false;
+    updatedInfoPointer = updateInfo();
+  }
 }
 
 function buildLinks(e: Edge) {
@@ -168,7 +211,7 @@ async function backtrack(
     resetEdges();
     colorEdge(q);
     render(canvas);
-    bounceSound.play();
+    //bounceSound.play();
     await delay(delayInMS);
 
     if (startV.getLabel() === endV.getLabel()) {
@@ -198,7 +241,7 @@ async function backtrack(
         resetEdges();
         colorEdge(q);
         render(canvas);
-        bounceSound.play();
+        //bounceSound.play();
         await delay(delayInMS);
       }
     }
@@ -210,7 +253,7 @@ async function backtrack(
   resetEdges();
   colorEdge(q);
   render(canvas);
-  bounceSound.play();
+  //bounceSound.play();
 
   return results;
 }
@@ -257,20 +300,45 @@ function resetEdges() {
 }
 
 export function botHandler() {
-  resultElement.innerHTML = "";
+  clearResultsField();
   Vertex.nextUniqueLabel = 0;
   edges.length = 0;
   vertexes.length = 0;
-  const bot = new Bot(2, 9);
+  const minVParsed = Number.parseInt(minV.value);
+  const maxVParsed = Number.parseInt(maxV.value);
+
+  const startRangeV = isNaN(minVParsed) ? 3 : minVParsed;
+  const endRangeV = isNaN(maxVParsed) ? 9 : maxVParsed;
+
+  clearCalcForm();
+
+  const bot = new Bot(startRangeV, endRangeV);
   bot.getVertexes().forEach((v) => vertexes.push(v));
   bot.getEdges().forEach((e) => edges.push(e));
   render(canvas);
 }
 
 export function clearHandler() {
-  resultElement.innerHTML = "";
+  clearResultsField();
+  clearRangeForm();
+  clearCalcForm();
   Vertex.nextUniqueLabel = 0;
   vertexes.length = 0;
   edges.length = 0;
   render(canvas);
+}
+
+function clearResultsField() {
+  resultElement.innerHTML = "";
+}
+
+function clearRangeForm() {
+  minV.value = "";
+  maxV.value = "";
+}
+
+function clearCalcForm() {
+  startV.value = "";
+  endV.value = "";
+  delayMS.value = "";
 }

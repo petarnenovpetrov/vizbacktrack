@@ -39,13 +39,17 @@ http://localhost:1234
 ### Fast demo:
 
     1. Click button "Bot";
-    2. In form bellow add:
+    2. In form bottom left add:
        1. number of start Vertex / 1 /
        2. number of end Vertex / N /
-       3. dilay in ms / 500 /
+       3. delay in ms / 500 /
        4. push "Calc"
-    3. To restart click button "Clear Canvas"
+    3. To clear all click button "Clear Canvas"
     4. Step 1
+    5. To preset range of random vertexes
+       1. Feel the fields minV and maxV
+       2. By default minV = 3 and mxV = 9
+    6. Step 1
 
 ### Manual step:  
 
@@ -66,6 +70,7 @@ http://localhost:1234
        during the calculations 
        will show all current used vertexes in DODGERBLUE and edges in BOLD RED
 
-![Snapshot](./public/snapshots/gr1.png "Graph") 
-![Snapshot](./public/snapshots/gr2.png "Graph") 
-![Snapshot](./public/snapshots/gr3.png "Graph")  
+![Snapshot](./public/snapshots/gr1.png "Graph")
+![Snapshot](./public/snapshots/gr2.png "Graph")
+![Snapshot](./public/snapshots/gr3.png "Graph")
+![Snapshot](./public/snapshots/gr4.png "Graph")  

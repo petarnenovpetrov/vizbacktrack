@@ -13,6 +13,7 @@
 .canvas {
   background: white;
   border: dodgerblue 2px solid;
+  flex:1 1;
 }
 
 .row {
@@ -34,11 +35,13 @@
 .vertex {
   width: 100px;
   height: 500px;
-}
+  flex:1 1 100px;
+  }
 
 .edge {
   width: 100px;
   height: 500px;
+  flex:1 1 100px;
 }
 
 .justify-between {
@@ -88,4 +91,20 @@
 
 #calc {
   flex: 1 1;
+}
+
+.bot{
+  flex:1 1 50px;
+}
+
+#clear{
+  flex:1 1 50px;
+}
+
+#maxV, #minV, #bot{
+  width: 50px;
+}
+
+#bot{
+  height: 400px;
 }

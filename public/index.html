@@ -1,79 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/cerulean/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="./style.css" />
-    <title>Document</title>
-  </head>
 
-  <body>
-    <div class="container column">
-      <div class="header dodger-blue">
-        <h2 class="text-center white">
-          Visual presentation of BackTrack Algorithm
-        </h2>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/cerulean/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="./style.css" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container column">
+    <div class="header dodger-blue">
+      <h2 class="text-center white">
+        Visual presentation of BackTrack Algorithm
+      </h2>
+    </div>
+    <div class="container row">
+      <canvas class="canvas" id="drop" width="600" height="500" dropzone="copy"></canvas>
+      <div class="container dodger-blue column bot">
+        <p><button id="bot" class="light-blue width-50" type="button">Bot</button></p>
+        <p class="text-center"><label for="from">Min V</label></p>
+        <p><input class="text-center" type="text" id="minV" placeholder="3"></p>
+        <p class="text-center"><label for="to">Max V</label></p>
+        <p><input class="text-center" type="text" id="maxV" placeholder="9"></p>
       </div>
-      <div class="container row">
-        <canvas
-          class="canvas"
-          id="drop"
-          width="600"
-          height="500"
-          dropzone="copy"
-        ></canvas>
-        <button id="bot" class="light-blue width-50" type="button">Bot</button>
-        <button id="clear" class="light-blue width-50" type="button">
-          Clear Canvas
-        </button>
-        <div class="vertex light-blue overflow">
-          <div class="height-100">
-            <p class="draggable text-center" draggable="true">Vertex</p>
-            <p class="under text-center">drag vertex to canvas</p>
-          </div>
-          <div>
-            <ul class="none-list-style" id="vertex"></ul>
-          </div>
+      <button id="clear" class="light-blue width-50" type="button">
+        Clear Canvas
+      </button>
+      <div class="vertex light-blue overflow">
+        <div class="height-100">
+          <p class="draggable text-center" draggable="true">Vertex</p>
+          <p class="under text-center">drag vertex to canvas</p>
         </div>
-        <div class="edge light-blue overflow">
-          <div class="height-100">
-            <p class="text-center">Edge</p>
-            <p class="under text-center">display links</p>
-          </div>
-          <div>
-            <ul class="none-list-style" id="edge"></ul>
-          </div>
+        <div>
+          <ul class="none-list-style" id="vertex"></ul>
         </div>
       </div>
-      <div class="container row justify-between dodger-blue results">
-        <div class="container column light-blue">
-          <form>
-            <div class="container justify-between">
-              <label for="startv">Start V</label>
-              <input id="startv" type="text" name="startv" />
-            </div>
-            <div class="container justify-between">
-              <label for="endv">End V</label>
-              <input id="endv" type="text" name="endv" />
-            </div>
-            <div class="container justify-between">
-              <label for="delay">Delay ms</label>
-              <input id="delay" type="text" name="delay" />
-            </div>
-            <div class="container justify-between">
-              <input id="calc" type="button" value="Calc" />
-            </div>
-          </form>
+      <div class="edge light-blue overflow">
+        <div class="height-100">
+          <p class="text-center">Edge</p>
+          <p class="under text-center">display links</p>
         </div>
-        <div class="container column light-blue">
-          <p id="results"></p>
+        <div>
+          <ul class="none-list-style" id="edge"></ul>
         </div>
       </div>
     </div>
+    <div class="container row justify-between dodger-blue results">
+      <div class="container column light-blue">
+        <form>
+          <div class="container justify-between">
+            <label for="startv">Start V</label>
+            <input id="startv" type="text" name="startv" />
+          </div>
+          <div class="container justify-between">
+            <label for="endv">End V</label>
+            <input id="endv" type="text" name="endv" />
+          </div>
+          <div class="container justify-between">
+            <label for="delay">Delay ms</label>
+            <input id="delay" type="text" name="delay" />
+          </div>
+          <div class="container justify-between">
+            <input id="calc" type="button" value="Calc" />
+          </div>
+        </form>
+      </div>
+      <div class="container column light-blue">
+        <p id="results"></p>
+      </div>
+    </div>
+  </div>
 
-    <audio id="sound" src="bounce.wav" preload="auto"></audio>
+  <audio id="sound" src="bounce.wav" preload="auto"></audio>
 
-    <script src="../src/index.ts"></script>
-  </body>
+  <script src="../src/index.ts"></script>
+</body>
+
 </html>

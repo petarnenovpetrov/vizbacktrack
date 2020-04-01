@@ -13,6 +13,10 @@ export default class Bot {
   }
 
   public static randomInRange(lowBound: number, highBound: number) {
+    [lowBound, highBound] = [
+      Math.min(lowBound, highBound),
+      Math.max(lowBound, highBound),
+    ];
     return ((Math.random() * (highBound - lowBound + 1)) ^ 0) + lowBound;
   }
   public static stringifyVertex(arr: Vertex[]) {

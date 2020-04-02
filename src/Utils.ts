@@ -17,6 +17,11 @@ const endV = document.getElementById("endv") as HTMLInputElement;
 const delayMS = document.getElementById("delay") as HTMLInputElement;
 const resultElement = document.getElementById("results") as HTMLSpanElement;
 const bounceSound = document.getElementById("sound") as HTMLAudioElement;
+const vertexesNumber = document.getElementById(
+  "vertexesNumber"
+) as HTMLSpanElement;
+const edgesNumber = document.getElementById("edgesNumber") as HTMLSpanElement;
+
 let isCalcRunning = false;
 
 const updateInfo = () => setInterval(fillInfo, 1000);
@@ -26,7 +31,8 @@ function fillInfo() {
   while (vertex?.firstChild) {
     vertex.removeChild(vertex.firstChild);
   }
-  vertexes.forEach(currentV => {
+  vertexesNumber.innerText = vertexes.length.toString();
+  vertexes.forEach((currentV) => {
     const li = document.createElement("li");
     li.innerText = currentV.getLabel();
     vertex?.appendChild(li);
@@ -35,7 +41,8 @@ function fillInfo() {
   while (edge?.firstChild) {
     edge.removeChild(edge.firstChild);
   }
-  edges.forEach(currentV => {
+  edgesNumber.innerText = edges.length.toString();
+  edges.forEach((currentV) => {
     const li = document.createElement("li");
     li.innerText =
       currentV.startV.getLabel() +
@@ -56,7 +63,7 @@ export function dropHandler(e: DragEvent) {
   const currentX = e.clientX - canvas.offsetLeft;
   const currentY = e.clientY - canvas.offsetTop;
   const vertex = new Vertex(currentX, currentY);
- 
+
   vertexes.push(vertex);
   render(canvas);
 }
@@ -79,7 +86,7 @@ export function clickHandler(e: MouseEvent) {
   const clickX = e.offsetX;
   const clickY = e.offsetY;
 
-  vertexes.forEach(v => {
+  vertexes.forEach((v) => {
     const delta = Math.sqrt(
       (clickX - v.center.x) ** 2 + (clickY - v.center.y) ** 2
     );
@@ -93,8 +100,8 @@ export function clickHandler(e: MouseEvent) {
       if (e.type === "mouseup") {
         line.endV = v;
       }
-      if (followsMousePointer) {       
-        v.emit("follow", { x: clickX, y: clickY },canvas,render);
+      if (followsMousePointer) {
+        v.emit("follow", { x: clickX, y: clickY }, canvas, render);
       }
     }
   });
@@ -116,7 +123,7 @@ export function clickHandler(e: MouseEvent) {
 function render(c: HTMLCanvasElement) {
   const ctx = c.getContext("2d")!;
   ctx.clearRect(0, 0, c.width, c.height);
-  edges.forEach(e => {
+  edges.forEach((e) => {
     e.calcLength();
     ctx.beginPath();
     ctx.lineWidth = e.getLineWidth();
@@ -125,7 +132,7 @@ function render(c: HTMLCanvasElement) {
     ctx.lineTo(e.endV.center.x, e.endV.center.y);
     ctx.stroke();
   });
-  vertexes.forEach(v => {
+  vertexes.forEach((v) => {
     ctx.beginPath();
     ctx.fillStyle = v.getColor();
     ctx.strokeStyle = "black";
@@ -159,7 +166,9 @@ export async function calcHandler() {
       results.sort(comparerPath)[0]
     )}
   Shortest salesman: ${JSON.stringify(
-    results.sort(comparerPath).filter(r => r.path.length === vertexes.length)[0]
+    results
+      .sort(comparerPath)
+      .filter((r) => r.path.length === vertexes.length)[0]
   )}
   All possible paths: ${results.length}
   All combinations: ${combinations}`;
@@ -172,23 +181,23 @@ export async function calcHandler() {
 }
 
 function buildLinks(e: Edge) {
-  if (!e.startV.links.filter(l => l.vertex === e.endV).length) {
+  if (!e.startV.links.filter((l) => l.vertex === e.endV).length) {
     e.startV.links.push({
       vertex: e.endV,
-      cost: e.getLength()
+      cost: e.getLength(),
     });
   } else {
-    e.startV.links.forEach(l => {
+    e.startV.links.forEach((l) => {
       if (l.vertex === e.endV) l.cost = e.getLength();
     });
   }
-  if (!e.endV.links.filter(l => l.vertex === e.startV).length) {
+  if (!e.endV.links.filter((l) => l.vertex === e.startV).length) {
     e.endV.links.push({
       vertex: e.startV,
-      cost: e.getLength()
+      cost: e.getLength(),
     });
   } else {
-    e.startV.links.forEach(l => {
+    e.startV.links.forEach((l) => {
       if (l.vertex === e.startV) l.cost = e.getLength();
     });
   }
@@ -219,7 +228,7 @@ async function backtrack(
       startV.used = false;
       return true;
     }
-    if (startV.links.every(v => v.vertex.used)) {
+    if (startV.links.every((v) => v.vertex.used)) {
       combinations++;
       startV.used = false;
       return false;
@@ -231,7 +240,7 @@ async function backtrack(
         if (res) {
           const result = {
             path: new Array(...q),
-            cost
+            cost,
           };
           results.push(result);
         }
@@ -293,7 +302,7 @@ function colorEdge(edges: number[]) {
 }
 
 function resetEdges() {
-  edges.forEach(e => {
+  edges.forEach((e) => {
     e.setColor("black");
     e.setLineWidth(1);
   });
@@ -313,8 +322,8 @@ export function botHandler() {
   clearCalcForm();
 
   const bot = new Bot(startRangeV, endRangeV);
-  bot.getVertexes().forEach(v => vertexes.push(v));
-  bot.getEdges().forEach(e => edges.push(e));
+  bot.getVertexes().forEach((v) => vertexes.push(v));
+  bot.getEdges().forEach((e) => edges.push(e));
   render(canvas);
 }
 

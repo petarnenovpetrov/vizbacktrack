@@ -112,3 +112,7 @@
 #bot{
   height: 400px;
 }
+p>span{
+  background: whitesmoke;
+  border-radius: 50%;
+}

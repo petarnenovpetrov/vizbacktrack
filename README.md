@@ -55,7 +55,7 @@ http://localhost:1234
 
 ### Manual step:  
 
-    1. Drag&Drop "vertex" to canvas to create a vertex
+    1. Drag&Drop "V" onto canvas to create a vertex / **look at 6** /
     2. Add min two vertexes
     3. Click in vertex circle and drag to another vertex circle to create an edge
     4. Create as many as you want edges and vertexes.

@@ -60,6 +60,7 @@ http://localhost:1234
     3. Click in vertex circle and drag to another vertex circle to create an edge
     4. Create as many as you want edges and vertexes.
     5. Goto to step 2 in Fast demo;
+    6. To stop sticking and follows mouse pointer by the vertex click mouseDown, move to empty area and mouseUp.
 
 ### Results  
 

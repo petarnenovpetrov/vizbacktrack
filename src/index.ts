@@ -5,7 +5,7 @@ import {
   dropHandler,
   calcHandler,
   botHandler,
-  clearHandler,
+  clearHandler
 } from "./Utils";
 const canvas = document.getElementById("drop");
 const vertex = document.getElementById("vertex");

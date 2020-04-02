@@ -17,7 +17,12 @@ export default class Vertex extends EventEmitter {
     this.center = new Point(x, y);
     this.label = (++Vertex.nextUniqueLabel).toString();
     this.maxLinks = maxLinks;
+    this.on("follow", (center, canvas, callback) => {
+      this.center = center;
+      callback(canvas);
+    });
   }
+
   public getLabel() {
     return this.label;
   }
